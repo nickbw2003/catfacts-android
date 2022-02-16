@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CatFacts</string>
+    <string name="cat_picture">Cat picture</string>
+    <string name="cat_fact">Cat fact</string>
+    <string name="cat_list">Cat list</string>
+    <string name="cat_image">Cat image</string>
+    <string name="action_retry">Retry</string>
+    <string name="generic_error">An error occurred. Please try again.</string>
+    <string name="next_fact">Next fact</string>
+    <string name="top_bar_action_share">Share</string>
+</resources>
