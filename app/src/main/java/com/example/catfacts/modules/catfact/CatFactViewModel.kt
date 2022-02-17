@@ -2,7 +2,6 @@ package com.example.catfacts.modules.catfact
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.catfacts.data.LocalImageHandler
 import com.example.catfacts.data.RemoteImageHandler
 import com.example.catfacts.data.catfact.CatFactRepository
 import com.example.catfacts.data.catimage.CatImageRepository
@@ -12,7 +11,6 @@ import com.example.catfacts.data.domain.Response
 import com.example.catfacts.modules.catfact.model.CatFactData
 import com.example.catfacts.ui.model.LoadingState
 import com.example.catfacts.ui.model.State
-import com.example.catfacts.ui.navigation.TopBarAction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,8 +22,7 @@ import kotlinx.coroutines.withContext
 class CatFactViewModel(
     private val catImageRepository: CatImageRepository,
     private val catFactRepository: CatFactRepository,
-    private val remoteImageHandler: RemoteImageHandler,
-    private val localImageHandler: LocalImageHandler
+    private val remoteImageHandler: RemoteImageHandler
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<State<CatFactData>?>(null)
@@ -40,20 +37,6 @@ class CatFactViewModel(
                 .collect { state ->
                     _state.value = state
                 }
-        }
-    }
-
-    fun onTopBarActionClicked(topBarAction: TopBarAction?) {
-        when (topBarAction) {
-            is TopBarAction.Share -> {
-                // TODO
-            }
-            is TopBarAction.SaveToGallery -> {
-                saveLatestDownloadedImageToGallery()
-            }
-            null -> {
-                // nothing to do here
-            }
         }
     }
 
@@ -84,13 +67,7 @@ class CatFactViewModel(
             )
         }
 
-    private fun saveLatestDownloadedImageToGallery() {
-        _state.value?.data?.let { data ->
-            localImageHandler.saveImageToGallery(galleryImageName, data.imageData)
-        }
-    }
-
     companion object {
-        private const val galleryImageName = "kitten"
+        const val galleryImageName = "kitten"
     }
 }

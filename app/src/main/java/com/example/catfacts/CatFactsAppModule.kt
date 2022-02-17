@@ -17,6 +17,8 @@ import com.example.catfacts.data.catimage.CatImageRemoteDataStore
 import com.example.catfacts.data.catimage.CatImageRemoteDataStoreImpl
 import com.example.catfacts.data.catimage.CatImageRepository
 import com.example.catfacts.data.catimage.CatImageRepositoryImpl
+import com.example.catfacts.util.ShareUtil
+import com.example.catfacts.util.ShareUtilImpl
 import org.koin.dsl.module
 
 val catFactsAppModule = module {
@@ -29,4 +31,5 @@ val catFactsAppModule = module {
     single<CatFactRemoteDataStore> { CatFactRemoteDataStoreImpl(get()) }
     single<CatImageRepository> { CatImageRepositoryImpl(get()) }
     single<CatFactRepository> { CatFactRepositoryImpl(get()) }
+    single<ShareUtil> { ShareUtilImpl() }
 }
