@@ -1,5 +1,9 @@
 package com.example.catfacts
 
+import com.example.catfacts.data.LocalImageHandler
+import com.example.catfacts.data.LocalImageHandlerImpl
+import com.example.catfacts.data.RemoteImageHandler
+import com.example.catfacts.data.RemoteImageHandlerImpl
 import com.example.catfacts.data.api.*
 import com.example.catfacts.data.api.catfactsapi.CatFactApi
 import com.example.catfacts.data.api.catfactsapi.CatFactApiImpl

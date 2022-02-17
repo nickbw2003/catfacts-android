@@ -2,8 +2,8 @@ package com.example.catfacts.modules.catfact
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.catfacts.data.api.LocalImageHandler
-import com.example.catfacts.data.api.RemoteImageHandler
+import com.example.catfacts.data.LocalImageHandler
+import com.example.catfacts.data.RemoteImageHandler
 import com.example.catfacts.data.catfact.CatFactRepository
 import com.example.catfacts.data.catimage.CatImageRepository
 import com.example.catfacts.data.domain.CatFact

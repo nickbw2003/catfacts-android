@@ -1,5 +1,6 @@
-package com.example.catfacts.data.api
+package com.example.catfacts.data
 
+import com.example.catfacts.data.api.KtorClientFactory
 import com.example.catfacts.data.domain.Response
 import io.ktor.client.*
 import io.ktor.client.request.*

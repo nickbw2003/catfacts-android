@@ -1,4 +1,4 @@
-package com.example.catfacts.data.api
+package com.example.catfacts.data
 
 import android.content.ContentResolver
 import android.content.ContentValues
