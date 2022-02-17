@@ -1,9 +1,6 @@
 package com.example.catfacts
 
-import com.example.catfacts.data.api.RemoteImageHandler
-import com.example.catfacts.data.api.RemoteImageHandlerImpl
-import com.example.catfacts.data.api.KtorClientFactory
-import com.example.catfacts.data.api.KtorClientFactoryImpl
+import com.example.catfacts.data.api.*
 import com.example.catfacts.data.api.catfactsapi.CatFactApi
 import com.example.catfacts.data.api.catfactsapi.CatFactApiImpl
 import com.example.catfacts.data.api.thecatapi.TheCatApi
@@ -23,6 +20,7 @@ val catFactsAppModule = module {
     single<TheCatApi> { TheCatApiImpl(get()) }
     single<CatFactApi> { CatFactApiImpl(get()) }
     single<RemoteImageHandler> { RemoteImageHandlerImpl(get()) }
+    single<LocalImageHandler> { LocalImageHandlerImpl(get()) }
     single<CatImageRemoteDataStore> { CatImageRemoteDataStoreImpl(get()) }
     single<CatFactRemoteDataStore> { CatFactRemoteDataStoreImpl(get()) }
     single<CatImageRepository> { CatImageRepositoryImpl(get()) }

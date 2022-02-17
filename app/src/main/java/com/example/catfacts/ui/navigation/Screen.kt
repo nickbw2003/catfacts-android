@@ -18,7 +18,10 @@ sealed class Screen(
         route = "catfact",
         labelResourceId = R.string.cat_fact,
         icon = Icons.Filled.Face,
-        topBarActions = listOf(TopBarAction.Share)
+        topBarActions = listOf(
+            TopBarAction.Share,
+            TopBarAction.SaveToGallery
+        )
     )
 
     object CatList : Screen(

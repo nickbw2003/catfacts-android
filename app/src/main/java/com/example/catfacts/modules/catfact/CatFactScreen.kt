@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -25,13 +26,26 @@ import com.example.catfacts.ui.composables.LoadingIndicator
 import com.example.catfacts.ui.composables.SingleAction
 import com.example.catfacts.ui.model.LoadingState
 import com.example.catfacts.ui.model.State
+import com.example.catfacts.ui.navigation.TopBarAction
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.viewModel
 
 @Composable
-fun CatFactScreen() {
+fun CatFactScreen(onTopBarActionClicked: Flow<TopBarAction?>) {
     val vm by viewModel<CatFactViewModel>()
     val state by vm.state.collectAsState(initial = null)
-    SingleAction { vm.load() }
+    val coroutineScope = rememberCoroutineScope()
+
+    SingleAction {
+        coroutineScope.launch {
+            onTopBarActionClicked.collect { topBarAction ->
+                vm.onTopBarActionClicked(topBarAction)
+            }
+        }
+        vm.load()
+    }
+
     CatFactScreen(state) { vm.load() }
 }
 

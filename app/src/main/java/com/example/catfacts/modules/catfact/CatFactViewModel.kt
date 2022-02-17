@@ -2,6 +2,7 @@ package com.example.catfacts.modules.catfact
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.catfacts.data.api.LocalImageHandler
 import com.example.catfacts.data.api.RemoteImageHandler
 import com.example.catfacts.data.catfact.CatFactRepository
 import com.example.catfacts.data.catimage.CatImageRepository
@@ -11,6 +12,7 @@ import com.example.catfacts.data.domain.Response
 import com.example.catfacts.modules.catfact.model.CatFactData
 import com.example.catfacts.ui.model.LoadingState
 import com.example.catfacts.ui.model.State
+import com.example.catfacts.ui.navigation.TopBarAction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +24,8 @@ import kotlinx.coroutines.withContext
 class CatFactViewModel(
     private val catImageRepository: CatImageRepository,
     private val catFactRepository: CatFactRepository,
-    private val remoteImageHandler: RemoteImageHandler
+    private val remoteImageHandler: RemoteImageHandler,
+    private val localImageHandler: LocalImageHandler
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<State<CatFactData>?>(null)
@@ -40,6 +43,20 @@ class CatFactViewModel(
         }
     }
 
+    fun onTopBarActionClicked(topBarAction: TopBarAction?) {
+        when (topBarAction) {
+            is TopBarAction.Share -> {
+                // TODO
+            }
+            is TopBarAction.SaveToGallery -> {
+                saveLatestDownloadedImageToGallery()
+            }
+            null -> {
+                // nothing to do here
+            }
+        }
+    }
+
     private fun combineRandomImageAndFact() = catImageRepository.getRandomCatImage()
         .combine(catFactRepository.getRandomCatFact()) { catImageResponse, catFactResponse ->
             catImageResponse to catFactResponse
@@ -48,7 +65,9 @@ class CatFactViewModel(
     private fun Flow<Pair<Response<CatImage>, Response<CatFact>>>.mapToState(): Flow<State<CatFactData>?> =
         map { (catImageResponse, catFactResponse) ->
             if (catImageResponse is Response.Success && catFactResponse is Response.Success) {
-                val imageByteArrayResponse = remoteImageHandler.downloadImage(catImageResponse.data.url)
+                val imageByteArrayResponse = remoteImageHandler.downloadImage(
+                    url = catImageResponse.data.url
+                )
                 if (imageByteArrayResponse is Response.Success) {
                     val data = CatFactData(
                         imageData = imageByteArrayResponse.data,
@@ -64,4 +83,14 @@ class CatFactViewModel(
                 loadingState = LoadingState.ERROR
             )
         }
+
+    private fun saveLatestDownloadedImageToGallery() {
+        _state.value?.data?.let { data ->
+            localImageHandler.saveImageToGallery(galleryImageName, data.imageData)
+        }
+    }
+
+    companion object {
+        private const val galleryImageName = "kitten"
+    }
 }

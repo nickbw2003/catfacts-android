@@ -15,7 +15,9 @@ import com.example.catfacts.modules.catlist.CatListScreen
 import com.example.catfacts.ui.composables.BottomNavigationBar
 import com.example.catfacts.ui.composables.NavigationBar
 import com.example.catfacts.ui.navigation.Screen
+import com.example.catfacts.ui.navigation.TopBarAction
 import com.example.catfacts.ui.theme.CatFactsAppTheme
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class MainActivity : ComponentActivity() {
 
@@ -36,13 +38,16 @@ fun Main() {
         Screen.CatList,
     )
     val navController = rememberNavController()
+    val onTopBarActionClicked = MutableStateFlow<TopBarAction?>(null)
 
     Scaffold(
         topBar = {
             NavigationBar(
                 screens = screens,
-                navController = navController
-            )
+                navController = navController,
+            ) { topBarAction ->
+                onTopBarActionClicked.value = topBarAction
+            }
         },
         bottomBar = {
             BottomNavigationBar(
@@ -56,7 +61,7 @@ fun Main() {
             startDestination = Screen.CatFact.route,
             Modifier.padding(innerPadding)
         ) {
-            composable(Screen.CatFact.route) { CatFactScreen() }
+            composable(Screen.CatFact.route) { CatFactScreen(onTopBarActionClicked) }
             composable(Screen.CatList.route) { CatListScreen() }
         }
     }

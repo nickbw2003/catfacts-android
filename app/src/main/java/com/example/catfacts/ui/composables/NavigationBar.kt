@@ -11,11 +11,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.catfacts.R
 import com.example.catfacts.ui.navigation.Screen
+import com.example.catfacts.ui.navigation.TopBarAction
 
 @Composable
 fun NavigationBar(
     screens: List<Screen>,
-    navController: NavController
+    navController: NavController,
+    onTopBarActionClicked: (TopBarAction) -> Unit
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -28,7 +30,7 @@ fun NavigationBar(
         title = { Text(stringResource(currentAppBarLabel)) },
         actions = {
             currentScreen?.topBarActions?.map { action ->
-                IconButton(onClick = {}) {
+                IconButton(onClick = { onTopBarActionClicked(action) }) {
                     Icon(
                         imageVector = action.icon,
                         contentDescription = stringResource(action.labelResourceId)
