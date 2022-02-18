@@ -16,7 +16,7 @@ sealed class Screen(
 
     object CatFact : Screen(
         route = "catfact",
-        labelResourceId = R.string.cat_fact,
+        labelResourceId = R.string.screen_label_cat_fact,
         icon = Icons.Filled.Face,
         topBarActions = listOf(
             TopBarAction.Share,
@@ -26,7 +26,7 @@ sealed class Screen(
 
     object CatList : Screen(
         route = "catlist",
-        labelResourceId = R.string.cat_list,
+        labelResourceId = R.string.screen_label_cat_list,
         icon = Icons.Filled.List
     )
 }

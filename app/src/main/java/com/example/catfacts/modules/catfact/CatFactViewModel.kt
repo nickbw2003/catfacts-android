@@ -66,8 +66,4 @@ class CatFactViewModel(
                 loadingState = LoadingState.ERROR
             )
         }
-
-    companion object {
-        const val galleryImageName = "kitten"
-    }
 }

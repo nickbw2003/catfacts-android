@@ -1,12 +1,21 @@
 <resources>
     <string name="app_name">CatFacts</string>
-    <string name="cat_picture">Cat picture</string>
-    <string name="cat_fact">Cat fact</string>
-    <string name="cat_list">Cat list</string>
-    <string name="cat_image">Cat image</string>
-    <string name="action_retry">Retry</string>
-    <string name="generic_error">An error occurred. Please try again.</string>
-    <string name="next_fact">Next fact</string>
+
+    <string name="common_action_retry">Retry</string>
+
+    <string name="screen_label_cat_fact">Cat fact</string>
+    <string name="screen_label_cat_list">Cat list</string>
+
     <string name="top_bar_action_share">Share</string>
     <string name="top_bar_action_save_to_gallery">Save to gallery</string>
+
+    <string name="error_generic">An error occurred. Please try again.</string>
+    <string name="error_share_cat_fact_generic">Something went wrong when trying to share the cat fact.</string>
+    <string name="error_save_cat_image_generic">Something went wrong when trying to save the cat image.</string>
+
+    <string name="success_save_cat_image">Cat image saved to gallery.</string>
+
+    <string name="cat_fact_screen_cat_image_description">Cat image</string>
+    <string name="cat_fact_screen_next_fact_button_label">Next fact</string>
+
 </resources>

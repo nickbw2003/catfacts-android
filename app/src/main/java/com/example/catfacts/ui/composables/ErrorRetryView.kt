@@ -30,7 +30,7 @@ fun ErrorRetryView(
             textAlign = TextAlign.Center
         )
         Button(onClick = retryAction) {
-            Text(text = stringResource(R.string.action_retry))
+            Text(text = stringResource(R.string.common_action_retry))
         }
         Spacer(modifier = Modifier.weight(ErrorRetryViewDimens.spacerWeight))
     }

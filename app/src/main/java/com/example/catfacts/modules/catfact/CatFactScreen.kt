@@ -1,6 +1,7 @@
 package com.example.catfacts.modules.catfact
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -55,7 +56,7 @@ fun CatFactScreen(onTopBarActionClicked: MutableStateFlow<TopBarAction?>) {
                         onTopBarActionClicked.value = null // mark as consumed
                     }
                     is TopBarAction.SaveToGallery -> {
-                        saveCatImage(localImageHandler, state)
+                        saveCatImage(localImageHandler, context, state)
                         onTopBarActionClicked.value = null // mark as consumed
                     }
                     null -> {
@@ -85,7 +86,7 @@ fun CatFactScreen(
         }
         state.loadingState == LoadingState.ERROR || state.data == null -> {
             ErrorRetryView(
-                errorText = stringResource(R.string.generic_error)
+                errorText = stringResource(R.string.error_generic)
             ) {
                 loadDataAction()
             }
@@ -100,7 +101,7 @@ fun CatFactScreen(
                 Spacer(modifier = Modifier.weight(CatFactScreenDimens.spacerWeight))
                 Image(
                     bitmap = state.data.imageData.asImageBitmap(),
-                    contentDescription = stringResource(R.string.cat_image),
+                    contentDescription = stringResource(R.string.cat_fact_screen_cat_image_description),
                     modifier = Modifier.size(CatFactScreenDimens.imageSize)
                 )
                 Spacer(modifier = Modifier.weight(CatFactScreenDimens.spacerWeight))
@@ -110,7 +111,7 @@ fun CatFactScreen(
                 )
                 Spacer(modifier = Modifier.weight(CatFactScreenDimens.spacerWeight))
                 Button(onClick = loadDataAction) {
-                    Text(text = stringResource(R.string.next_fact))
+                    Text(text = stringResource(R.string.cat_fact_screen_next_fact_button_label))
                 }
                 Spacer(modifier = Modifier.weight(CatFactScreenDimens.spacerWeight))
             }
@@ -120,11 +121,21 @@ fun CatFactScreen(
 
 private fun saveCatImage(
     localImageHandler: LocalImageHandler,
+    context: Context,
     state: State<CatFactData>?
 ) {
-    state?.data?.let { data ->
-        localImageHandler.saveImageToGallery(CatFactViewModel.galleryImageName, data.imageData)
+    val activity = context.findActivity() ?: return
+    val success = state?.data?.let { data ->
+        localImageHandler.saveImageToGallery(data.imageData)
+        true
+    } ?: false
+
+    val toastTextResource = if (success) {
+        R.string.success_save_cat_image
+    } else {
+        R.string.error_save_cat_image_generic
     }
+    Toast.makeText(activity, toastTextResource, Toast.LENGTH_SHORT).show()
 }
 
 private fun shareImageAndText(
@@ -134,14 +145,18 @@ private fun shareImageAndText(
     state: State<CatFactData>?
 ) {
     val activity = context.findActivity() ?: return
-    state?.data?.let { data ->
+    val success = state?.data?.let { data ->
         localImageHandler.saveImageToGallery(
-            CatFactViewModel.galleryImageName,
             data.imageData
         )?.let { imageUri ->
             val text = data.text
             shareUtil.shareTextAndImage(activity, text, imageUri)
+            true
         }
+    } ?: false
+
+    if (!success) {
+        Toast.makeText(activity, R.string.error_share_cat_fact_generic, Toast.LENGTH_SHORT).show()
     }
 }
 
