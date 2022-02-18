@@ -9,7 +9,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 interface CatImageRemoteDataStore {
-    fun getRandomCatImage(): Flow<Response<CatImage>>
+    fun getCatImages(
+        categoryId: Long? = null,
+        limit: Int? = 0
+    ): Flow<Response<List<CatImage>>>
+
     fun getImageCategories(): Flow<Response<List<CatCategory>>>
 }
 
@@ -17,11 +21,15 @@ class CatImageRemoteDataStoreImpl(
     private val theCatApi: TheCatApi
 ) : CatImageRemoteDataStore {
 
-    override fun getRandomCatImage(): Flow<Response<CatImage>> = flow {
+    override fun getCatImages(
+        categoryId: Long?,
+        limit: Int?
+    ): Flow<Response<List<CatImage>>> = flow {
         val response = try {
-            theCatApi.imageSearch().firstOrNull()?.let { firstImage ->
-                Response.Success(CatImage.fromRemoteValue(firstImage))
-            } ?: Response.Failure(reason = Response.FailureReason.GENERIC)
+            val images = theCatApi.imageSearch(categoryId, limit).map { remoteImage ->
+                CatImage.fromRemoteValue(remoteImage)
+            }
+            Response.Success(images)
         } catch (t: Throwable) {
             Response.Failure(reason = Response.FailureReason.GENERIC)
         }
