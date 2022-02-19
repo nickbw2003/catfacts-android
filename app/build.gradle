@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.catfacts"
-        minSdk 29 // just to avoid the need to implement runtime permissions for media store access
+        minSdk 21
         targetSdk 31
         versionCode 1
         versionName "1.0"

@@ -1,5 +1,7 @@
 package com.example.catfacts.modules.catfact
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -37,19 +39,25 @@ import org.koin.androidx.compose.viewModel
 @Composable
 fun CatFactScreen(onTopBarActionClicked: MutableStateFlow<TopBarAction?>) {
     val vm by viewModel<CatFactViewModel>()
+
     val context = LocalContext.current
     val topBarActionHandler: TopBarActionHandler = get()
     val state by vm.state.collectAsState(initial = null)
     val coroutineScope = rememberCoroutineScope()
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = topBarActionHandler.onPermissionResult
+    )
 
     SingleAction {
         coroutineScope.launch {
             onTopBarActionClicked.collect { topBarAction ->
                 topBarAction?.let { action ->
                     topBarActionHandler.handleTopBarAction(
-                        context = context,
+                        activityContext = context,
                         topBarAction = action,
-                        state = state
+                        state = state,
+                        askForPermission = permissionLauncher::launch
                     ) {
                         onTopBarActionClicked.value = null
                     }

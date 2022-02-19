@@ -12,8 +12,10 @@
     <string name="error_generic">An error occurred. Please try again.</string>
     <string name="error_share_cat_fact_generic">Something went wrong when trying to share the cat fact.</string>
     <string name="error_save_cat_image_generic">Something went wrong when trying to save the cat image.</string>
+    <string name="error_permission_required">Storage permission required to share and save images.</string>
 
     <string name="success_save_cat_image">Cat image saved to gallery.</string>
+    <string name="success_permission_granted">Permission granted. Please try again.</string>
 
     <string name="cat_fact_screen_cat_image_description">Cat image</string>
     <string name="cat_fact_screen_next_fact_button_label">Next fact</string>

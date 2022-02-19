@@ -7,5 +7,5 @@ import org.koin.dsl.module
 
 val catFactModule = module {
     viewModel { CatFactViewModel(get(), get(), get()) }
-    single<TopBarActionHandler> { TopBarActionHandlerImpl(get(), get()) }
+    single<TopBarActionHandler> { TopBarActionHandlerImpl(get(), get(), get()) }
 }

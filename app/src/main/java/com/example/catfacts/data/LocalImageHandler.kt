@@ -4,10 +4,11 @@ import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
-import android.icu.text.SimpleDateFormat
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import com.example.catfacts.extensions.asBitmap
+import java.text.SimpleDateFormat
 import java.util.*
 
 interface LocalImageHandler {
@@ -27,7 +28,11 @@ class LocalImageHandlerImpl(
     override fun saveImageToGallery(
         imageData: ByteArray
     ): Uri? {
-        val mediaStoreUri = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+        val mediaStoreUri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+        } else {
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        }
         val bitmap = imageData.asBitmap()
         val dateFormat = SimpleDateFormat.getDateTimeInstance().apply {
             (this as? SimpleDateFormat)?.applyPattern(dateTimePattern)
