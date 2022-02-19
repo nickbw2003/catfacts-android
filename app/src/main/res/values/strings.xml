@@ -18,4 +18,6 @@
     <string name="cat_fact_screen_cat_image_description">Cat image</string>
     <string name="cat_fact_screen_next_fact_button_label">Next fact</string>
 
+    <string name="cat_list_screen_drop_down_label">Please select a category</string>
+
 </resources>
