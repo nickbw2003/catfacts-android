@@ -2,16 +2,19 @@ package com.example.catfacts.modules.catlist
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+import coil.size.OriginalSize
 import com.example.catfacts.R
 import com.example.catfacts.data.domain.CatCategory
 import com.example.catfacts.modules.catlist.composables.CategoryFilter
@@ -77,7 +80,9 @@ fun CatListScreen(
             }
         }
         categoriesState.loadingState == LoadingState.SUCCESS -> {
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 stickyHeader {
                     CategoryFilter(
                         categories = categoriesState.data?.categories ?: emptyList(),
@@ -86,12 +91,23 @@ fun CatListScreen(
                     )
                 }
                 listState?.data?.let { listData ->
-                    items(listData.entries) { item ->
-                        Image(
-                            modifier = Modifier.size(300.dp),
-                            painter = rememberImagePainter(item.imageUrl),
-                            contentDescription = null
-                        )
+                    items(items = listData.entries) { item ->
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Image(
+                                modifier = Modifier.fillMaxWidth(),
+                                contentScale = ContentScale.FillWidth,
+                                painter = rememberImagePainter(
+                                    item.imageUrl,
+                                    builder = {
+                                        size(OriginalSize)
+                                    }
+                                ),
+                                contentDescription = null
+                            )
+                        }
                     }
                 }
             }
