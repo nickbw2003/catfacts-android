@@ -81,7 +81,7 @@ class TheCatApiImpl(
         private const val imageSearchEndpoint = "images/search"
         private const val categoriesEndpoint = "categories"
         private const val apiKeyHeaderName = "x-api-key"
-        private const val categoryIdsQueryParamName = "categoryId"
+        private const val categoryIdsQueryParamName = "category_ids"
         private const val limitQueryParamName = "limit"
         private const val mimeTypesQueryParamName = "mime_types"
         private const val supportedMimeType = "jpg"
