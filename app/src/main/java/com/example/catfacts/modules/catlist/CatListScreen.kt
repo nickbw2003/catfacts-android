@@ -42,7 +42,7 @@ fun CatListScreen() {
         loadCategoriesAction = vm::loadCategories,
         onCategorySelected = vm::onCategorySelected,
         listState = listState,
-        reloadListAction = {}
+        reloadListAction = vm::reloadList
     )
 }
 

@@ -78,6 +78,12 @@ class CatListViewModel(
         }
     }
 
+    fun reloadList() {
+        _categoriesState.value?.data?.selectedCategory?.let { selectedCategory ->
+            onCategorySelected(selectedCategory)
+        }
+    }
+
     private fun Flow<Response<List<CatCategory>>>.mapToState(): Flow<State<CatListCategoriesData>?> =
         map { response ->
             if (response is Response.Success && response.data.isNotEmpty()) {
