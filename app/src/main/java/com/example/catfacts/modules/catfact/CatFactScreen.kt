@@ -1,13 +1,12 @@
 package com.example.catfacts.modules.catfact
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -15,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -90,30 +90,39 @@ fun CatFactScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.CenterHorizontally
+                verticalArrangement = Arrangement.Center
             ) {
-                Spacer(modifier = Modifier.weight(CatFactScreenDimens.spacerWeight))
                 Image(
                     bitmap = state.data.imageData.asImageBitmap(),
                     contentDescription = stringResource(R.string.cat_fact_screen_cat_image_description),
-                    modifier = Modifier.size(CatFactScreenDimens.imageSize)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(CatFactScreenDimens.imageWeight),
+                    contentScale = ContentScale.FillWidth,
                 )
-                Spacer(modifier = Modifier.weight(CatFactScreenDimens.spacerWeight))
-                Text(
-                    text = state.data.text,
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.weight(CatFactScreenDimens.spacerWeight))
-                Button(onClick = loadDataAction) {
-                    Text(text = stringResource(R.string.cat_fact_screen_next_fact_button_label))
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = MaterialTheme.colors.secondary),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.height(CatFactScreenDimens.spacerHeight))
+                    Text(
+                        text = state.data.text,
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(modifier = Modifier.height(CatFactScreenDimens.spacerHeight))
+                    Button(onClick = loadDataAction) {
+                        Text(text = stringResource(R.string.cat_fact_screen_next_fact_button_label))
+                    }
+                    Spacer(modifier = Modifier.height(CatFactScreenDimens.spacerHeight))
                 }
-                Spacer(modifier = Modifier.weight(CatFactScreenDimens.spacerWeight))
             }
         }
     }
 }
 
 private object CatFactScreenDimens {
-    val imageSize = 300.dp
-    const val spacerWeight = 1f
+    const val imageWeight = 1f
+    val spacerHeight = 10.dp
 }
