@@ -90,23 +90,26 @@ fun CatListScreen(
                         selectedCategory = categoriesState.data?.selectedCategory
                     )
                 }
-                listState?.data?.let { listData ->
-                    items(items = listData.entries) { item ->
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Image(
+                if (categoriesState.data?.selectedCategory != null) {
+                    listState?.data?.let { listData ->
+                        items(items = listData.entries) { item ->
+                            Row(
                                 modifier = Modifier.fillMaxWidth(),
-                                contentScale = ContentScale.FillWidth,
-                                painter = rememberImagePainter(
-                                    item.imageUrl,
-                                    builder = {
-                                        size(OriginalSize)
-                                    }
-                                ),
-                                contentDescription = null
-                            )
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Image(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    contentScale = ContentScale.FillWidth,
+                                    painter = rememberImagePainter(
+                                        item.imageUrl,
+                                        builder = {
+                                            size(OriginalSize)
+                                            placeholder(R.drawable.ic_cat_image_placeholder)
+                                        }
+                                    ),
+                                    contentDescription = null
+                                )
+                            }
                         }
                     }
                 }
