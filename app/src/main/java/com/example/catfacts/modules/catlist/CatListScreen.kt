@@ -2,19 +2,18 @@ package com.example.catfacts.modules.catlist
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
-import coil.size.OriginalSize
 import com.example.catfacts.R
 import com.example.catfacts.data.domain.CatCategory
 import com.example.catfacts.modules.catlist.composables.CategoryFilter
@@ -94,16 +93,18 @@ fun CatListScreen(
                     listState?.data?.let { listData ->
                         items(items = listData.entries) { item ->
                             Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(CatListScreenDimens.imageRowHeight),
+                                horizontalArrangement = Arrangement.Center,
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Image(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    contentScale = ContentScale.FillWidth,
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentScale = ContentScale.FillHeight,
                                     painter = rememberImagePainter(
                                         item.imageUrl,
                                         builder = {
-                                            size(OriginalSize)
                                             placeholder(R.drawable.ic_cat_image_placeholder)
                                         }
                                     ),
@@ -116,4 +117,8 @@ fun CatListScreen(
             }
         }
     }
+}
+
+private object CatListScreenDimens {
+    val imageRowHeight = 300.dp
 }
